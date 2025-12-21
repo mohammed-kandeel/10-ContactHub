@@ -154,7 +154,7 @@ function imageFormDisplay() {
 
    if (imageInput) {
       convertFileBase64(imageInput, function (base64) {
-         imageDisplay.innerHTML = `<span class="overflow-hidden rounded-circle object-fit-cover"><img  src="${base64}" alt="none" /></span>`;
+         imageDisplay.innerHTML = `<span class="overflow-hidden rounded-circle object-fit-cover w-100 h-100"><img  src="${base64}" alt="none" /></span>`;
          imageValue = base64;
       });
    } else {
@@ -299,7 +299,9 @@ function setContactValue(id) {
    input.notes.value = allContacts[currentIndex].notes;
    setQuickAccessValue(currentIndex);
    if (allContacts[currentIndex].image)
-      document.getElementById('imageDisplay').innerHTML = `<span class="overflow-hidden rounded-circle object-fit-cover"><img  src="${allContacts[currentIndex].image}" alt="none" /></span>`;
+      document.getElementById(
+         'imageDisplay'
+      ).innerHTML = `<span class="overflow-hidden rounded-circle object-fit-cover w-100 h-100"><img  src="${allContacts[currentIndex].image}" alt="none" /></span>`;
 }
 function clearQuickAccess() {
    var input = formInputs();
@@ -380,10 +382,12 @@ function getFirstCharsOfName(name) {
    else chars += fulName.at(fulName.length - 1).at(0);
    return chars;
 }
+
+// --- Validation ---
 function validateInputField(element, msgId) {
    var msg = document.getElementById(msgId);
 
-   if (element && regex[msgId].test(element.name) && msgId === 'msgImage') {
+   if (element && msgId === 'msgImage' && regex[msgId].test(element.name)) {
       msg.classList.add('d-none');
       return true;
    } else if (msgId !== 'msgImage' && regex[msgId].test(element.value)) {
@@ -394,7 +398,6 @@ function validateInputField(element, msgId) {
       return false;
    }
 }
-
 function validateContactForm(addUpdate) {
    var index = -1;
    if (addUpdate !== 'update') index = searchForDuplicatePhoneNumbers(formInputs().phoneNumber.value);
@@ -499,7 +502,7 @@ function htmlContainers() {
                   >
                   ${
                      contact.image
-                        ? `<span class="overflow-hidden rounded-4 object-fit-cover"><img  src="${contact.image}" alt="${contact.name}" /></span>`
+                        ? `<span class="overflow-hidden rounded-4 object-fit-cover w-100 h-100"><img  src="${contact.image}" alt="${contact.name}" /></span>`
                         : `<span class="fs-18 fw-6 text-uppercase text-white">${getFirstCharsOfName(contact.name)}</span>`
                   }
                      ${
@@ -652,7 +655,7 @@ function htmlContainers() {
                   <div class="${avatarInitialsColor(index)} w-40 h-40 rounded-3 d-flex align-items-center justify-content-center flex-shrink-0">
                      ${
                         contact.image
-                           ? `<span class="overflow-hidden rounded-3 object-fit-cover"><img  src="${contact.image}" alt="${contact.name}"</span> `
+                           ? `<span class="overflow-hidden rounded-3 object-fit-cover w-100 h-100"><img  src="${contact.image}" alt="${contact.name}"</span> `
                            : `<span class="fs-14 fw-6 text-uppercase text-white">${getFirstCharsOfName(contact.name)}</span>`
                      }
                   </div>
@@ -682,7 +685,7 @@ function htmlContainers() {
                   <div class="${avatarInitialsColor(index)} w-40 h-40  rounded-3 d-flex align-items-center justify-content-center flex-shrink-0">
                      ${
                         contact.image
-                           ? `<span class="overflow-hidden rounded-3 object-fit-cover"><img  src="${contact.image}" alt="${contact.name}"</span> `
+                           ? `<span class="overflow-hidden rounded-3 object-fit-cover w-100 h-100"><img  src="${contact.image}" alt="${contact.name}"</span> `
                            : `<span class="fs-14 fw-6 text-uppercase text-white">${getFirstCharsOfName(contact.name)}</span>`
                      }
                   </div>
@@ -700,7 +703,17 @@ function htmlContainers() {
          </div>
       `;
    }
-
+   function noContacts() {
+      return `
+      <div class="px-80 text-center">
+         <div class="mx-auto mb-3 w-80 h-80 bg-gray-100 text-gray-300 fs-24 w-44 h-44 rounded-3 d-flex align-items-center justify-content-center">
+            <i class="fa-solid fa-address-book"></i>
+         </div>
+         <p class="m-0 text-gray-500">No contacts found</p>
+         <p class="mt-1 fs-14 text-gray-400">Click "Add Contact" to get started</p>
+      </div>
+   `;
+   }
    return {
       numContactContainer,
       numFavoritesContactContainer,
@@ -709,15 +722,18 @@ function htmlContainers() {
       contactsListContainer,
       favoritesListContainer,
       emergencyListContainer,
+      noContacts,
    };
 }
 function displayData() {
-   if (!allContacts) return;
-   var cartonaContactsList = '';
+   console.log(allContacts);
    var cartonaFavoritesList = '';
    var cartonaEmergencyList = '';
+   var cartonaContactsList = '';
    var container = htmlContainers();
    var setContactHub = contactHub();
+
+   if (!allContacts.length) cartonaContactsList = container.noContacts();
 
    for (var i = 0; i < allContacts.length; i++) {
       if (

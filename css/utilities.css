@@ -121,10 +121,9 @@
    --shadow-lg: 0 10px 15px -3px #0000001a, 0 4px 6px -4px #0000001a;
 }
 
-/* translate */
-/* .translate-75-left {
-   transform: translate(-75%, -25%);
-} */
+.px-80{
+   padding-block:5rem ;
+}
 
 /* width */
 .w-20 {
@@ -153,6 +152,9 @@
 }
 .w-56 {
    width: 3.5rem;
+}
+.w-80 {
+   width: 5rem;
 }
 .w-96 {
    width: 6rem;
@@ -214,6 +216,9 @@
 }
 .h-56 {
    height: 3.5rem;
+}
+.h-80 {
+   height: 5rem;
 }
 .h-96 {
    height: 6rem;

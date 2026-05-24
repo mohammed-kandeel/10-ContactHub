@@ -170,26 +170,8 @@ No setup needed — open directly in any browser:
 open index.html
 ```
 
----
-
-## 🔮 Possible Future Improvements
-
-- [ ] Export contacts to CSV or vCard
-- [ ] Import contacts from a file
-- [ ] Contact groups filtering
-- [ ] Sort contacts alphabetically
-- [ ] Dark mode support
-
----
-
 ## 👤 Author
 
 **Mohammed Kandeel**  
 🔗 [10-ContactHub](https://github.com/mohammed-kandeel/10-ContactHub)  
 🌐 [Live Demo](https://mohammed-kandeel.github.io/10-ContactHub/)
-
----
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
